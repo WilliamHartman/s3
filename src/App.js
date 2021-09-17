@@ -79,7 +79,7 @@ class App extends Component {
 
   handleEnterKey(e){
     if(e.key === 'Enter' && this.state.newName !== ''){
-      axios.post(`/api/addPlayer`, {playerName: this.state.newName})
+      axios.post(`/api/addPlayer`, {playerName: this.state.newName, nextScrim: this.state.nextScrim})
         .then(result => {
           let newPlayerList = result.data.map(player => player.player_name)
           if(moment(this.state.nextScrim).diff(moment(), 'minutes') < this.state.minutesLeftToDisplayTeams){

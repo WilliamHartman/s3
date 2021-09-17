@@ -15,7 +15,6 @@
     "massive": "^6.10.0",
     "moment": "^2.29.1",
     "morgan": "^1.10.0",
-    "node-groupme": "^0.0.3",
     "path": "^0.12.7",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
