@@ -1,7 +1,7 @@
 var HTTPS = require('https');
 const moment = require('moment');
 
-const botID = '83509260838e8be597190fce87'
+const botID = '4d5ff87e230eff4779a9f44b68'
 
 function postMessage(players, nextScrim) {
     var botResponse, options, body, botReq;
