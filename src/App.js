@@ -14,7 +14,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      minutesLeftToDisplayTeams: 99440,
+      minutesLeftToDisplayTeams: 2880,
       players: [],
       newName: '',
       highlightedName: '',
