@@ -2,6 +2,13 @@ import axios from "axios";
 import React, { Component } from "react";
 import './App.css';
 import moment from 'moment';
+import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
 
 class App extends Component {
   constructor() {
@@ -21,12 +28,18 @@ class App extends Component {
       greenTeamTwo: '',
       redTeam: '',
       redTeamTwo: '',
+      Transition: React.forwardRef(function Transition(props, ref) {
+        return <Slide direction="up" ref={ref} {...props} />;
+      }),
+      deleteOpen: false
     }
     this.jsxPlayers = this.jsxPlayers.bind(this);
     this.jsxTeams = this.jsxTeams.bind(this);
     this.handleEnterKey = this.handleEnterKey.bind(this);
     this.handleName = this.handleName.bind(this);
     this.handleListClick = this.handleListClick.bind(this);
+    this.handleDeleteOpen = this.handleDeleteOpen.bind(this);
+    this.deletePlayer = this.deletePlayer.bind(this);
   }
 
   componentDidMount() {
@@ -77,6 +90,34 @@ class App extends Component {
     this.setState({newName: e.target.value})
   }
 
+  handleDeleteOpen(open){
+    this.setState({deleteOpen: open})
+  }
+
+  deletePlayer(name){
+    axios.post(`/api/deletePlayer`, {playerName: name})
+      .then(result => {
+        let newPlayerList = result.data.map(player => player.player_name)
+        if(moment(this.state.nextScrim).diff(moment(), 'minutes') < this.state.minutesLeftToDisplayTeams){
+          axios.get(`/api/getNewTeams`).then((teamList) => {
+            this.setState({
+              players: newPlayerList,
+              greenTeam: teamList.data[0].green_team,
+              greenTeamTwo: teamList.data[0].green_team_two,
+              redTeam: teamList.data[0].red_team,
+              redTeamTwo: teamList.data[0].red_team_two,
+              newName: '', 
+              highlightedName: '', 
+              deleteName: '',
+              deleteOpen: false
+            })
+          })
+        } else {
+          this.setState({players: newPlayerList, newName: '', deleteOpen: false})
+        }
+      })
+  }
+
   handleEnterKey(e){
     if(e.key === 'Enter' && this.state.newName !== ''){
       axios.post(`/api/addPlayer`, {playerName: this.state.newName, nextScrim: this.state.nextScrim})
@@ -105,26 +146,7 @@ class App extends Component {
   handleListClick(name){
     if(this.state.highlightedName === name){
       if(this.state.deleteName === name){
-        axios.post(`/api/deletePlayer`, {playerName: name})
-          .then(result => {
-            let newPlayerList = result.data.map(player => player.player_name)
-            if(moment(this.state.nextScrim).diff(moment(), 'minutes') < this.state.minutesLeftToDisplayTeams){
-              axios.get(`/api/getNewTeams`).then((teamList) => {
-                this.setState({
-                  players: newPlayerList,
-                  greenTeam: teamList.data[0].green_team,
-                  greenTeamTwo: teamList.data[0].green_team_two,
-                  redTeam: teamList.data[0].red_team,
-                  redTeamTwo: teamList.data[0].red_team_two,
-                  newName: '', 
-                  highlightedName: '', 
-                  deleteName: ''
-                })
-              })
-            } else {
-              this.setState({players: newPlayerList, newName: ''})
-            }
-          })
+        this.setState({deleteOpen: true})
       } else {
         this.setState({deleteName: name})
       }
@@ -189,14 +211,35 @@ class App extends Component {
 
     return (
       <div className="App">
-        <h1 className={'app-title'}>S3</h1>
-        <h3 className={'app-subtitle'}>Soccer Scrimmage Signup</h3>
+        <div className={'app-title-cont'}>
+          <h1 className={'app-title'}>S3</h1>
+          <h3 className={'app-subtitle'}>Soccer Scrimmage Signup</h3>
+        </div>
         <h3 className={'app-next-scrim'}>Next Scrimmage:</h3>
         <h3 className={'app-next-date'}>{this.state.nextScrim}</h3>
-        <h3 className={'app-next-date'}>{this.state.timeUntilText}</h3>
-        <h3 className={'app-next-scrim'}>Players Signed Up:</h3>
+        <h3 className={'app-next-days'}>{this.state.timeUntilText}</h3>
+        <h3 className={'app-players-header'}>Players Signed Up:</h3>
         {this.jsxPlayers()}
         {moment(this.state.nextScrim).diff(moment(), 'minutes') < this.state.minutesLeftToDisplayTeams ? this.jsxTeams() : null}
+
+        <Dialog
+          open={this.state.deleteOpen}
+          TransitionComponent={this.state.Transition}
+          keepMounted
+          onClose={() => this.setState({deleteOpen: false})}
+          aria-describedby="alert-dialog-slide-description"
+        >
+          <DialogTitle>{`Remove ${this.state.deleteName} from the list?`}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-slide-description">
+              Are you sure you want to remove {this.state.deleteName} from the list?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => this.setState({deleteOpen: false, deleteName: '', highlightedName: ''})}>Cancel</Button>
+            <Button onClick={() => this.deletePlayer(this.state.deleteName)}>Remove</Button>
+          </DialogActions>
+        </Dialog>
       </div>
     );
   }

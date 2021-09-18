@@ -1,15 +1,13 @@
 var HTTPS = require('https');
 const moment = require('moment');
 
-
-
 const botID = '83509260838e8be597190fce87'
 
 function postMessage(players, nextScrim) {
     var botResponse, options, body, botReq;
 
     let playersStr = players.map((player, index) => `${index+1}. ${player.player_name}`).join('\n')
-    playersStr = nextScrim + '\n' + playersStr;
+    playersStr = nextScrim + '\n Sign up here: http://s3.soccer \n' + playersStr;
   
     botResponse = playersStr;
   

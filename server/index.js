@@ -18,7 +18,7 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static(__dirname + './../build'));
 app.use(morgan('dev'));
-
+ 
  
 //Connection to Azure DB
 massive({

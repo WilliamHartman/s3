@@ -8,21 +8,42 @@
   background-color: rgb(241, 241, 241);
 }
 
+.app-title-cont {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  border-radius: 30px;
+  background: linear-gradient(0deg, rgb(197, 197, 197), rgb(241, 241, 241) 80%) no-repeat;
+}
+
 .app-title {
   font-size: 70px;
   font-weight: 700;
   color: darkgreen;
-  margin: 10px 0 0 0;
+  margin: -10px 0 0 0;
 }
 
 .app-subtitle {
   font-size: 20px;
   font-weight: 700;
   color: darkgreen;
-  margin: -10px 0 0 0;
+  margin: -5px 0 10px 0;
 }
 
 .app-next-scrim {
+  font-size: 25px;
+  font-weight: 700;
+  color: darkgreen;
+  margin: 130px 0 0 0;
+  border-bottom: 2px solid darkgreen;
+}
+
+.app-players-header {
   font-size: 25px;
   font-weight: 700;
   color: darkgreen;
@@ -36,6 +57,17 @@
   color: darkgreen;
   margin: 10px 0 0 0;
   text-align: center;
+}
+
+.app-next-days {
+  font-size: 30px;
+  font-weight: 700;
+  color: darkgreen;
+  margin: 10px 0 0 0;
+  text-align: center;
+  padding: 0 5px 2px 5px;
+  border: darkgreen solid 1px;
+  border-radius: 7px;
 }
 
 .app-list-item {
