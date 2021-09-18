@@ -9,7 +9,7 @@ const cron = require('cron');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
 
 
-const port = 8088;
+const port = 80;
 
 
 //middleware
