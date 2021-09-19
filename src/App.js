@@ -48,7 +48,7 @@ class App extends Component {
     let timeUntilText = '';
 
     for(let key in this.state.scrimDaysTimes){
-      let dayNum = key === 'Tuesday' ? 2 : key === 'Thursday' ? 4 : 7
+      let dayNum = key === 'Tuesday' ? 2 : key === 'Thursday' ? 4 : 0
 
       let strDate = key + ', ' + moment().day(dayNum).format('LL') + ' ' + this.state.scrimDaysTimes[key]
       let momentDate = (moment(strDate).format('LLLL'))
