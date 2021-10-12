@@ -75,7 +75,7 @@ module.exports = function (cron, app) {
     'America/New_York' /* Time zone of this job. */
     )
 
-    var tueThuDelete = new cron.CronJob('0 30 19 * * 2,4', function() {
+    var tueThuDelete = new cron.CronJob('0 30 18 * * 2,4', function() {
         const db = app.get('db');
         db.truncate_players()
         db.post_teams('','','','')
@@ -88,7 +88,7 @@ module.exports = function (cron, app) {
     'America/New_York' /* Time zone of this job. */
     )
 
-    var sunDelete = new cron.CronJob('0 0 18 * * 0', function() {
+    var sunDelete = new cron.CronJob('0 30 17 * * 0', function() {
         const db = app.get('db');
         db.truncate_players()
         db.post_teams('','','','')
