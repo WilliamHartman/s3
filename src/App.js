@@ -20,7 +20,7 @@ class App extends Component {
       highlightedName: '',
       deleteName: '',
       todaysTimeDate: moment().format('LLLL'),
-      scrimDaysTimes: {Tuesday: '5:30 PM', Thursday: '5:30 PM', Sunday: '4:00 PM'},
+      scrimDaysTimes: {Tuesday: '5:00 PM', Thursday: '5:00 PM', Sunday: '4:00 PM'},
       nextScrim: '',
       timeUntilNextScrim: '',
       timeUntilText: '',
